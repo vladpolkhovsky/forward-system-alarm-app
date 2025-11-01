@@ -29,7 +29,7 @@ jlink {
         val additionalOptions = when {
             org.gradle.internal.os.OperatingSystem.current().isWindows -> listOf("--win-shortcut", "--win-menu")
             org.gradle.internal.os.OperatingSystem.current().isLinux -> listOf("--linux-shortcut")
-            org.gradle.internal.os.OperatingSystem.current().isMacOsX -> listOf()
+            org.gradle.internal.os.OperatingSystem.current().isMacOsX -> listOf("--mac-sign")
             else -> error("Unsupported OS")
         }
 
