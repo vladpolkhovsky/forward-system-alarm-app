@@ -3,6 +3,8 @@ name: Build and Release with jpackage
 on:
   push:
     tags: [ "v*" ]
+  workflow_call:
+
 
 jobs:
   build:
