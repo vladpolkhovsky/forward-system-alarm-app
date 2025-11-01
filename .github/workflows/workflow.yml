@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'openjdk'
+          distribution: 'corretto'
 
       - name: Make gradlew executable
         if: matrix.os != 'windows-latest'
