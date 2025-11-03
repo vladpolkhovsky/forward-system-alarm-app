@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 @UtilityClass
 public class ConnectionUtils {
 
-    private static Path CA_PEM_PATH = Path.of("./CA.pem").toAbsolutePath();
+    private static Path CA_PEM_PATH = null;
 
 
     public static void validateConnection(DatabaseConnectionInformation connectionInformation) {
@@ -69,9 +69,16 @@ public class ConnectionUtils {
     @SneakyThrows
     private static void fetchCa() {
         try (InputStream inputStream = new URL("https://storage.yandexcloud.net/cloud-certs/CA.pem").openStream()) {
+            CA_PEM_PATH = Files.createTempFile("CA", ".pem").toAbsolutePath();
+            log.info("Fetching ca pem file: {}", CA_PEM_PATH);
             Files.deleteIfExists(CA_PEM_PATH);
             Files.createFile(CA_PEM_PATH);
             Files.write(CA_PEM_PATH, inputStream.readAllBytes());
+            log.info("Successfully fetched ca pem file: {}", CA_PEM_PATH);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            JOptionPane.showMessageDialog(null, ExceptionUtils.getStackTrace(ex), ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+            throw new RuntimeException(ex);
         }
     }
 }
